@@ -7,7 +7,9 @@
 
 import Foundation
 
-typealias NextBestCityRule = (City, [City]) -> City
+protocol NextBestCityRule {
+    func nextBestCity(from: City, destinations: [City]) -> City
+}
 
 class City: Equatable {
     let population: Int
@@ -21,7 +23,7 @@ class City: Equatable {
     }
 }
 
-func getRoute(_ cities: [City], using nextBestCityRule: NextBestCityRule) -> [City] {
+func getRoute(_ cities: [City], using rule: NextBestCityRule) -> [City] {
     var route: [City] = []
     var remainingCities = cities
 
@@ -31,7 +33,7 @@ func getRoute(_ cities: [City], using nextBestCityRule: NextBestCityRule) -> [Ci
     }
 
     if remainingCities.count > 0 {
-        route.append(nextBestCityRule(cities.biggest, remainingCities))
+        route.append(rule.nextBestCity(from: cities.biggest, destinations: remainingCities))
     }
     
     return route
