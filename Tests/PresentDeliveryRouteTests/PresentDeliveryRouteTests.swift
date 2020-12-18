@@ -8,13 +8,13 @@ import XCTest
 final class PresentDeliveryRouteTests: XCTestCase {
     func testSearchReturnsListOfCities() {
         let testCity = City(1)
-        XCTAssertEqual(search([testCity]), [testCity])
+        XCTAssertEqual(getRoute([testCity]), [testCity])
     }
 
     func testRouteBeginsAtLargestCity() {
         let smallCity = City(1)
         let bigCity = City(2)
         let cities = [smallCity, bigCity]
-        XCTAssertEqual(search(cities)[0], bigCity)
+        XCTAssertEqual(getRoute(cities)[0], bigCity)
     }
 }

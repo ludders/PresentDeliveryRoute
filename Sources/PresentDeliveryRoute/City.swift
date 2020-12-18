@@ -19,7 +19,7 @@ class City: Equatable {
     }
 }
 
-func search(_ cities: [City]) -> [City] {
+func getRoute(_ cities: [City]) -> [City] {
     var route: [City] = []
 
     cities.sorted { (city1, city2) -> Bool in
