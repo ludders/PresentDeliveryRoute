@@ -1,15 +1,20 @@
 import XCTest
 @testable import PresentDeliveryRoute
 
+//Search should produce a delivery route
+//- Input: List of cities
+//- Output: Delivery route
+
 final class PresentDeliveryRouteTests: XCTestCase {
-    func testExample() {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct
-        // results.
-        XCTAssertEqual(PresentDeliveryRoute().text, "Hello, World!")
+    func testSearchReturnsListOfCities() {
+        let testCity = City(1)
+        XCTAssertEqual(search([testCity]), [testCity])
     }
 
-    static var allTests = [
-        ("testExample", testExample),
-    ]
+    func testRouteBeginsAtLargestCity() {
+        let smallCity = City(1)
+        let bigCity = City(2)
+        let cities = [smallCity, bigCity]
+        XCTAssertEqual(search(cities)[0], bigCity)
+    }
 }
