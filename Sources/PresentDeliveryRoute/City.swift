@@ -1,11 +1,13 @@
 //
-//  File.swift
+//  City.swift
 //  
 //
 //  Created by dludlow7 on 18/12/2020.
 //
 
 import Foundation
+
+typealias NextBestCityMethod = (City, [City]) -> City
 
 class City: Equatable {
     let population: Int
@@ -19,9 +21,18 @@ class City: Equatable {
     }
 }
 
-func getRoute(_ cities: [City]) -> [City] {
+func getRoute(_ cities: [City], nextBestCityMethod: NextBestCityMethod) -> [City] {
     var route: [City] = []
+    var remainingCities = cities
 
     route.append(cities.biggest)
+    remainingCities.removeAll { city -> Bool in
+        return city == cities.biggest
+    }
+
+    if remainingCities.count > 0 {
+        route.append(nextBestCityMethod(cities.biggest, remainingCities))
+    }
+    
     return route
 }
