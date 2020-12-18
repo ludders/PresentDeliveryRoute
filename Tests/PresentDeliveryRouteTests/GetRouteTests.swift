@@ -31,7 +31,7 @@ final class GetRouteTests: XCTestCase {
     }
 }
 
-class MockNextBestCityRule: NextBestCityRule {
+class MockNextBestCityRule: NextBestCityRuleProtocol {
     var bestCity: City
 
     init(_ bestCity: City) {
