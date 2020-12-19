@@ -6,18 +6,22 @@ import XCTest
 //- Output: Delivery route
 
 final class GetRouteTests: XCTestCase {
+    let mockMetric: PresentDeliveryMetric = MockPresentDeliveryMetric()
+
     func testSearchReturnsListOfCities() {
         let testCity = City(1)
-        let mockNextBestCityRule = MockNextBestCityRule(City(1))
-        XCTAssertEqual(getRoute([testCity], using: mockNextBestCityRule), [testCity])
+        let mockRule = MockNextBestCityRule(returns: City(1))
+        let route = getRoute([testCity], using: mockRule, metric: mockMetric)
+        XCTAssertEqual(route, [testCity])
     }
 
     func testRouteBeginsAtLargestCity() {
         let smallCity = City(1)
         let bigCity = City(2)
         let cities = [smallCity, bigCity]
-        let mockNextBestCityRule = MockNextBestCityRule(City(1))
-        XCTAssertEqual(getRoute(cities, using: mockNextBestCityRule)[0], bigCity)
+        let mockRule = MockNextBestCityRule(returns: City(1))
+        let route = getRoute(cities, using: mockRule, metric: mockMetric)
+        XCTAssertEqual(route[0], bigCity)
     }
 
     func testSecondStopOnRouteIsNextBestStop() {
@@ -25,20 +29,20 @@ final class GetRouteTests: XCTestCase {
         let bestCity = City(1)
         let worstCity = City(2)
         let cities = [worstCity, bestCity, biggestCity]
-        let mockNextBestCityRule = MockNextBestCityRule(bestCity)
-
-        XCTAssertEqual(getRoute(cities, using: mockNextBestCityRule)[1], bestCity)
+        let mockRule = MockNextBestCityRule(returns: bestCity)
+        let route = getRoute(cities, using: mockRule, metric: mockMetric)
+        XCTAssertEqual(route[1], bestCity)
     }
 }
 
 class MockNextBestCityRule: NextBestCityRuleProtocol {
     var bestCity: City
 
-    init(_ bestCity: City) {
+    init(returns bestCity: City) {
         self.bestCity = bestCity
     }
 
-    func nextBestCity(from: City, destinations: [City]) -> City {
+    func nextBestCity(from: City, to: [City], using: PresentDeliveryMetric) -> City {
         return bestCity
     }
 }
