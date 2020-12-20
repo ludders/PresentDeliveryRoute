@@ -12,7 +12,11 @@ protocol PresentDeliveryMetric {
 }
 
 class PresentsPerHourMetric: PresentDeliveryMetric {
-    func calculate(from: City, to: City) -> Double {
-        return 2139037.43
+    func calculate(from origin: City, to destination: City) -> Double {
+        let presents = Double(destination.population)
+        let presentDeliveryTime = ((presents * 0.001) / 3600).rounded(digits: 2)
+        let travelTime = (3000.0/3966.0).rounded(digits: 2)
+        let presentsPerHour = presents / (presentDeliveryTime + travelTime)
+        return presentsPerHour.rounded(digits: 2)
     }
 }
