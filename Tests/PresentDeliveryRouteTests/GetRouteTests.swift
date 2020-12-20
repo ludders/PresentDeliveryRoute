@@ -7,27 +7,28 @@ import XCTest
 
 final class GetRouteTests: XCTestCase {
     let mockMetric: PresentDeliveryMetric = MockPresentDeliveryMetric()
+    let mockLocation = Stubs.locations.zero
 
     func testSearchReturnsListOfCities() {
-        let testCity = City(1, location: CLLocation(latitude: 0, longitude: 0))
-        let mockRule = MockNextBestCityRule(returns: City(1, location: CLLocation(latitude: 0, longitude: 0)))
+        let testCity = City(1, location: mockLocation)
+        let mockRule = MockNextBestCityRule(returns: City(1, location: mockLocation))
         let route = getRoute([testCity], using: mockRule, metric: mockMetric)
         XCTAssertEqual(route, [testCity])
     }
 
     func testRouteBeginsAtLargestCity() {
-        let smallCity = City(1, location: CLLocation(latitude: 0, longitude: 0))
-        let bigCity = City(2, location: CLLocation(latitude: 0, longitude: 0))
+        let smallCity = City(1, location: mockLocation)
+        let bigCity = City(2, location: mockLocation)
         let cities = [smallCity, bigCity]
-        let mockRule = MockNextBestCityRule(returns: City(1, location: CLLocation(latitude: 0, longitude: 0)))
+        let mockRule = MockNextBestCityRule(returns: City(1, location: mockLocation))
         let route = getRoute(cities, using: mockRule, metric: mockMetric)
         XCTAssertEqual(route[0], bigCity)
     }
 
     func testSecondStopOnRouteIsNextBestStop() {
-        let biggestCity = City(3, location: CLLocation(latitude: 0, longitude: 0))
-        let bestCity = City(1, location: CLLocation(latitude: 0, longitude: 0))
-        let worstCity = City(2, location: CLLocation(latitude: 0, longitude: 0))
+        let biggestCity = City(3, location: mockLocation)
+        let bestCity = City(1, location: mockLocation)
+        let worstCity = City(2, location: mockLocation)
         let cities = [worstCity, bestCity, biggestCity]
         let mockRule = MockNextBestCityRule(returns: bestCity)
         let route = getRoute(cities, using: mockRule, metric: mockMetric)
