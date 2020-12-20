@@ -14,10 +14,20 @@ protocol PresentDeliveryMetric {
 class PresentsPerHourMetric: PresentDeliveryMetric {
     func calculate(from origin: City, to destination: City) -> Double {
         let presents = Double(destination.population)
-        let presentDeliveryTime = ((presents * 0.001) / 3600).rounded(digits: 2)
-        let distanceInKm = origin.location.distance(from: destination.location) / 1000
-        let travelTime = (distanceInKm/3000.0).rounded(digits: 2)
-        let presentsPerHour = presents / (presentDeliveryTime + travelTime)
+        let distanceInKm = calculateDistanceKmBetween(origin, destination)
+        let presentsPerHour = presents / (calculateDeliveryTime(presents) + calculateTravelTime(distanceInKm))
         return presentsPerHour.rounded(digits: 2)
+    }
+
+    private func calculateDeliveryTime(_ presents: Double) -> Double {
+        return ((presents * 0.001) / 3600).rounded(digits: 2)
+    }
+
+    private func calculateDistanceKmBetween(_ origin: City, _ destination: City) -> Double {
+        return origin.location.distance(from: destination.location) / 1000
+    }
+
+    private func calculateTravelTime(_ distanceInKm: Double) -> Double {
+        return (distanceInKm/3000.0).rounded(digits: 2)
     }
 }
