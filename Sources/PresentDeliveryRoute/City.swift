@@ -9,10 +9,12 @@ import Foundation
 import CoreLocation
 
 class City: Equatable {
+    let name: String
     let population: Int
     let location: CLLocation
 
-    public init(_ population: Int, location: CLLocation) {
+    public init(_ name: String, population: Int, location: CLLocation) {
+        self.name = name
         self.population = population
         self.location = location
     }
