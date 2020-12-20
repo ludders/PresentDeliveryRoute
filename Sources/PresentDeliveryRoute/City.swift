@@ -6,12 +6,15 @@
 //
 
 import Foundation
+import CoreLocation
 
 class City: Equatable {
     let population: Int
+    let location: CLLocation
 
-    public init(_ population: Int) {
+    public init(_ population: Int, location: CLLocation) {
         self.population = population
+        self.location = location
     }
 
     static func == (lhs: City, rhs: City) -> Bool {
