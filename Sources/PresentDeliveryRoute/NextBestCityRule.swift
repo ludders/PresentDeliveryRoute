@@ -13,8 +13,8 @@ protocol NextBestCityRuleProtocol {
 
 class NextBestCityRule: NextBestCityRuleProtocol {
     func nextBestCity(from origin: City, to destinations: [City], using metric: PresentDeliveryMetric) -> City {
-        return destinations.sorted { (city1, city2) -> Bool in
-            return metric.calculate(from: origin, to: city1) > metric.calculate(from: origin, to: city2)
-        }.first!
+        return destinations.max { (city1, city2) -> Bool in
+            return metric.calculate(from: origin, to: city1) < metric.calculate(from: origin, to: city2)
+        }!
     }
 }
