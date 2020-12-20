@@ -31,8 +31,12 @@ func getRoute(_ cities: [City], using rule: NextBestCityRuleProtocol, metric: Pr
         return city == cities.biggest
     }
 
-    if remainingCities.count > 0 {
-        route.append(rule.nextBestCity(from: cities.biggest, to: remainingCities, using: metric))
+    while remainingCities.count > 0 {
+        let nextBestCity = rule.nextBestCity(from: route.last!, to: remainingCities, using: metric)
+        route.append(nextBestCity)
+        remainingCities.removeAll { city -> Bool in
+            return city == nextBestCity
+        }
     }
     
     return route

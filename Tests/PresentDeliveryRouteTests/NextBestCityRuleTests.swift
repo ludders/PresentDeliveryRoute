@@ -13,11 +13,11 @@ class NextBestCityRuleTests: XCTestCase {
     func testNextBestCityRuleReturnsCityWithHighestPresentsPerHourRate() {
         let subject = NextBestCityRule()
         let mockLocation = Stubs.locations.zero
-        let origin = City(1, location: mockLocation)
-        let bestCity = City(3, location: mockLocation)
-        let worstCity = City(2, location: mockLocation)
+        let origin = FakeMetricCity(1, location: mockLocation, metricValue: 0)
+        let bestCity = FakeMetricCity(3, location: mockLocation, metricValue: 2)
+        let worstCity = FakeMetricCity(2, location: mockLocation, metricValue: 1)
         let cities = [worstCity, bestCity]
-        let mockMetric = MockPresentDeliveryMetric()
-        XCTAssertEqual(subject.nextBestCity(from: origin, to: cities, using: mockMetric), bestCity)
+        let fakeMetric = FakePresentDeliveryMetric()
+        XCTAssertEqual(subject.nextBestCity(from: origin, to: cities, using: fakeMetric), bestCity)
     }
 }
