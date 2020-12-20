@@ -26,8 +26,8 @@ class PresentsPerHourMetricTests: XCTestCase {
     //Metric = 4000000 / (1.11 + 1.32) = 1646090.53 [presents/h]
     func testPresentsPerHourMetricCalculationFromNewYorkToLosAngeles() {
         let metric = PresentsPerHourMetric()
-        let newYork = City(8600000, location: CLLocation(latitude: 40.6635, longitude: 73.9387))
-        let losAngeles = City(4000000, location: CLLocation(latitude: 34.0194, longitude: 118.4108))
+        let newYork = Stubs.cities.newYork
+        let losAngeles = Stubs.cities.losAngeles
         XCTAssertEqual(metric.calculate(from: newYork, to: losAngeles), 1646090.53)
     }
 
@@ -39,8 +39,8 @@ class PresentsPerHourMetricTests: XCTestCase {
     //Metric = 2700000 / (0.75 + 0.39) = 2368421.05 [presents/h]
     func testPresentsPerHourMetricCalculationFromNewYorkToChicago() {
         let metric = PresentsPerHourMetric()
-        let newYork = City(8600000, location: CLLocation(latitude: 40.6635, longitude: 73.9387))
-        let chicago = City(2700000, location: CLLocation(latitude: 41.8376, longitude: 87.6818))
+        let newYork = Stubs.cities.newYork
+        let chicago = Stubs.cities.chicago
         XCTAssertEqual(metric.calculate(from: newYork, to: chicago), 2368421.05)
     }
 }
