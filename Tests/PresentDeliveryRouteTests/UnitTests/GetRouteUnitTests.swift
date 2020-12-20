@@ -6,13 +6,13 @@ import XCTest
 //- Output: Delivery route
 
 final class GetRouteTests: XCTestCase {
-    let fakeMetric: PresentDeliveryMetric = FakePresentDeliveryMetric()
+    let fakeMetric = FakePresentDeliveryMetric()
     let stubLocation = Stubs.locations.zero
 
     func testSearchReturnsListOfCities() {
         let testCity = FakeMetricCity(city: Stubs.cities.city, metricValue: 1)
         let fakeRule = FakeNextBestCityRule()
-        let route = getRoute([testCity], using: fakeRule, metric: fakeMetric)
+        let route = getRoute([testCity], using: fakeRule)
         XCTAssertEqual(route, [testCity])
     }
 
@@ -21,7 +21,7 @@ final class GetRouteTests: XCTestCase {
         let bigCity = FakeMetricCity(city: Stubs.cities.biggerCity, metricValue: 1)
         let cities = [smallCity, bigCity]
         let fakeRule = FakeNextBestCityRule()
-        let route = getRoute(cities, using: fakeRule, metric: fakeMetric)
+        let route = getRoute(cities, using: fakeRule)
         XCTAssertEqual(route[0], bigCity)
     }
 
@@ -31,13 +31,14 @@ final class GetRouteTests: XCTestCase {
         let newYork = FakeMetricCity(city: Stubs.cities.newYork, metricValue: 0)
         let cities = [chicago, losAngeles, newYork]
         let fakeRule = FakeNextBestCityRule()
-        let route = getRoute(cities, using: fakeRule, metric: fakeMetric)
+        let route = getRoute(cities, using: fakeRule)
         XCTAssertEqual(route, [newYork, chicago, losAngeles])
     }
 }
 
 class FakeNextBestCityRule: NextBestCityRuleProtocol {
-    func nextBestCity(from: City, to cities: [City], using: PresentDeliveryMetric) -> City {
+    var metric = FakePresentDeliveryMetric()
+    func nextBestCity(from: City, to cities: [City]) -> City {
         guard let mockCities = cities as? [FakeMetricCity] else {
             fatalError("Only an array of FakeMetricCity can be used here.")
         }

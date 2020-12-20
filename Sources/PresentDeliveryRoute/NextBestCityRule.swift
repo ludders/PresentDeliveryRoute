@@ -8,11 +8,17 @@
 import Foundation
 
 protocol NextBestCityRuleProtocol {
-    func nextBestCity(from: City, to: [City], using: PresentDeliveryMetric) -> City
+    func nextBestCity(from: City, to: [City]) -> City
 }
 
 class NextBestCityRule: NextBestCityRuleProtocol {
-    func nextBestCity(from origin: City, to destinations: [City], using metric: PresentDeliveryMetric) -> City {
+    var metric: PresentDeliveryMetric
+
+    init(metric: PresentDeliveryMetric) {
+        self.metric = metric
+    }
+
+    func nextBestCity(from origin: City, to destinations: [City]) -> City {
         return destinations.max { (city1, city2) -> Bool in
             return metric.calculate(from: origin, to: city1) < metric.calculate(from: origin, to: city2)
         }!

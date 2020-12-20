@@ -48,9 +48,9 @@ class GetRouteIntegrationTests: XCTestCase {
             dallas
         ]
         
-        let nextBestCityRule = NextBestCityRule()
         let presentsPerHourMetric = PresentsPerHourMetric()
-        let route = getRoute(cities, using: nextBestCityRule, metric: presentsPerHourMetric)
+        let nextBestCityRule = NextBestCityRule(metric: presentsPerHourMetric)
+        let route = getRoute(cities, using: nextBestCityRule)
         XCTAssertTrue(route.elementsEqual(expectedRoute))
     }
 }

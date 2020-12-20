@@ -24,7 +24,7 @@ class City: Equatable {
     }
 }
 
-func getRoute(_ cities: [City], using rule: NextBestCityRuleProtocol, metric: PresentDeliveryMetric) -> [City] {
+func getRoute(_ cities: [City], using rule: NextBestCityRuleProtocol) -> [City] {
     var route: [City] = []
     var remainingCities = cities
 
@@ -34,7 +34,7 @@ func getRoute(_ cities: [City], using rule: NextBestCityRuleProtocol, metric: Pr
     }
 
     while remainingCities.count > 0 {
-        let nextBestCity = rule.nextBestCity(from: route.last!, to: remainingCities, using: metric)
+        let nextBestCity = rule.nextBestCity(from: route.last!, to: remainingCities)
         route.append(nextBestCity)
         remainingCities.removeAll { city -> Bool in
             return city == nextBestCity
