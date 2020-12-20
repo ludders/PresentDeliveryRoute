@@ -10,3 +10,9 @@ import Foundation
 protocol PresentDeliveryMetric {
     func calculate(from: City, to: City) -> Double
 }
+
+class PresentsPerHourMetric: PresentDeliveryMetric {
+    func calculate(from: City, to: City) -> Double {
+        return 2139037.43
+    }
+}
