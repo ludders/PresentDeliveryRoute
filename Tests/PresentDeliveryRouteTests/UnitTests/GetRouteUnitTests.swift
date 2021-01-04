@@ -39,10 +39,10 @@ final class GetRouteTests: XCTestCase {
 class FakeNextBestCityRule: NextBestCityRuleProtocol {
     var metric = FakePresentDeliveryMetric()
     func nextBestCity(from: City, to cities: [City]) -> City {
-        guard let mockCities = cities as? [FakeMetricCity] else {
+        guard let fakeCities = cities as? [FakeMetricCity] else {
             fatalError("Only an array of FakeMetricCity can be used here.")
         }
-        return mockCities.max { (city1, city2) -> Bool in
+        return fakeCities.max { (city1, city2) -> Bool in
             return city1.fakeMetric < city2.fakeMetric
         }!
     }
