@@ -28,18 +28,19 @@ func getRoute(_ cities: [City], using rule: NextBestCityRuleProtocol) -> [City] 
     var route: [City] = []
     var remainingCities = cities
 
-    route.append(cities.biggest)
-    remainingCities.removeAll { city -> Bool in
-        return city == cities.biggest
-    }
+    append(cities.biggest, to: &route, removeFrom: &remainingCities)
 
     while remainingCities.count > 0 {
         let nextBestCity = rule.nextBestCity(from: route.last!, to: remainingCities)
-        route.append(nextBestCity)
-        remainingCities.removeAll { city -> Bool in
-            return city == nextBestCity
-        }
+        append(nextBestCity, to: &route, removeFrom: &remainingCities)
     }
     
     return route
+}
+
+fileprivate func append(_ city: City, to route: inout [City], removeFrom remainingCities: inout [City]) {
+    route.append(city)
+    remainingCities.removeAll { _city -> Bool in
+        return _city == city
+    }
 }
