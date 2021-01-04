@@ -12,7 +12,8 @@ final class GetRouteTests: XCTestCase {
     func testSearchReturnsListOfCities() {
         let testCity = FakeMetricCity(city: Stubs.cities.city, metricValue: 1)
         let fakeRule = FakeNextBestCityRule()
-        let route = getRoute([testCity], using: fakeRule)
+        let routeCalculator = RouteCalculator(cities: [testCity])
+        let route = routeCalculator.getRoute(using: fakeRule)
         XCTAssertEqual(route, [testCity])
     }
 
@@ -21,7 +22,8 @@ final class GetRouteTests: XCTestCase {
         let bigCity = FakeMetricCity(city: Stubs.cities.biggerCity, metricValue: 1)
         let cities = [smallCity, bigCity]
         let fakeRule = FakeNextBestCityRule()
-        let route = getRoute(cities, using: fakeRule)
+        let routeCalculator = RouteCalculator(cities: cities)
+        let route = routeCalculator.getRoute(using: fakeRule)
         XCTAssertEqual(route[0], bigCity)
     }
 
@@ -31,7 +33,8 @@ final class GetRouteTests: XCTestCase {
         let newYork = FakeMetricCity(city: Stubs.cities.newYork, metricValue: 0)
         let cities = [chicago, losAngeles, newYork]
         let fakeRule = FakeNextBestCityRule()
-        let route = getRoute(cities, using: fakeRule)
+        let routeCalculator = RouteCalculator(cities: cities)
+        let route = routeCalculator.getRoute(using: fakeRule)
         XCTAssertEqual(route, [newYork, chicago, losAngeles])
     }
 }

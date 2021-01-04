@@ -24,23 +24,31 @@ class City: Equatable {
     }
 }
 
-func getRoute(_ cities: [City], using rule: NextBestCityRuleProtocol) -> [City] {
+class RouteCalculator {
     var route: [City] = []
-    var remainingCities = cities
+    var remainingCities: [City]
 
-    append(cities.biggest, to: &route, removeFrom: &remainingCities)
-
-    while remainingCities.count > 0 {
-        let nextBestCity = rule.nextBestCity(from: route.last!, to: remainingCities)
-        append(nextBestCity, to: &route, removeFrom: &remainingCities)
+    init(cities: [City]) {
+        self.remainingCities = cities
     }
-    
-    return route
+
+    func getRoute(using rule: NextBestCityRuleProtocol) -> [City] {
+
+        addToRoute(remainingCities.biggest)
+
+        while remainingCities.count > 0 {
+            let nextBestCity = rule.nextBestCity(from: route.last!, to: remainingCities)
+            addToRoute(nextBestCity)
+        }
+
+        return route
+    }
+
+    private func addToRoute(_ city: City) {
+        route.append(city)
+        remainingCities.removeAll { _city -> Bool in
+            return _city == city
+        }
+    }
 }
 
-fileprivate func append(_ city: City, to route: inout [City], removeFrom remainingCities: inout [City]) {
-    route.append(city)
-    remainingCities.removeAll { _city -> Bool in
-        return _city == city
-    }
-}
