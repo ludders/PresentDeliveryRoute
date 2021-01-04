@@ -12,10 +12,11 @@ protocol PresentDeliveryMetric {
 }
 
 class PresentsPerHourMetric: PresentDeliveryMetric {
+
     func calculate(from origin: City, to destination: City) -> Double {
         let presents = Double(destination.population)
         let distanceInKm = calculateDistanceKmBetween(origin, destination)
-        let presentsPerHour = presents / (calculateDeliveryTime(presents) + calculateTravelTime(distanceInKm))
+        let presentsPerHour = calculatePresentsPerHour(presents, distanceInKm)
         return presentsPerHour.rounded(digits: 2)
     }
 
@@ -29,5 +30,9 @@ class PresentsPerHourMetric: PresentDeliveryMetric {
 
     private func calculateTravelTime(_ distanceInKm: Double) -> Double {
         return (distanceInKm/3000.0).rounded(digits: 2)
+    }
+
+    private func calculatePresentsPerHour(_ presents: Double, _ distanceInKm: Double) -> Double {
+        return presents / (calculateDeliveryTime(presents) + calculateTravelTime(distanceInKm))
     }
 }
